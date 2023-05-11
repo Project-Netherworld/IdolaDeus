@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+    
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Idola Deus Settings Builder</title>
+
+        <!-- Overwriting of Bootstrap certain styles to be less obtrusive as well as show/hide classes-->
+        <link rel="stylesheet" href="stylesheets/style.css">
+
+
+        <!-- Bootstrap related imports-->
+        <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="bootstrap/bootstrap-theme.min.css">
+        <script src="bootstrap/jquery.min.js"></script>
+        <script src="bootstrap/bootstrap.min.js"></script>
+
+          
+        <nav class="navbar navbar-dark bg-primary" style="border-radius: 0px; background-color: #007ffd">
+            <div class="navbar-brand" style="font-size: 3em; padding-left: 0em; font-family: Fantasty;"> Idola Deus Settings Builder </div>
+        </nav>
+  
+  
+    </head>
+    <body>
+        <form id="form">
+            <fieldset>
+                <legend>Backend Settings</legend>
+                <p>Backend URL: <input type="text" id = "backend_url" name="backend_url" value= "http://localhost:8000" required></p>
+            </fieldset>
+      
+            <fieldset>
+                <legend>Netherworld Settings</legend>
+                <p>Memory Cycler:
+                    <select name="memory_cycler" id="memory_cycler_select">
+                        <option value="by_sentence">By Sentence</option>
+                        <option value="by_token">By Token</option>
+                        <option value="none">None</option>
+                    </select>
+                </p>
+                
+                <p>Pipeline:
+                    <select id="pipeline">
+                        <option value="conversational">Conversational</option>
+                    </select>
+                </p>
+                
+                <p>Device Type:
+                    <select name="device_type" id="device_select">
+                        <option value="cpu">CPU</option>
+                        <option value="cuda:" selected>CUDA</option>
+                    </select>
+                </p>
+                
+                <p id="GPU_number">GPU Number: <input class= "required_hidable" type="number" name="gpu_number" id="gpu_number_input" min="0" step="1" value=0></p>
+                <p id="extra_budget">Extra Budget: <input class= "required_hidable" type="number" id="extra_budget_input" name="extra_budget" min="0" step="1" value=100></p>
+            </fieldset>
+      
+            <fieldset>
+                <legend>Provider Settings</legend>
+                <p>Provider Type:
+                    <select name="provider_type" id="provider_type">
+                        <option value="discord" selected>Discord</option>
+                        <option value="terminal">Terminal</option>
+                    </select>
+                </p>
+                <p> (Main) User Name: <input type="text" id="user_name" name="user_name" required></p>
+                <p>Bot Name: <input type="text" id="bot_name" name="bot_name" required></p>
+                <p class="discord_exclusive">Conditional Response Only? <input type="checkbox" id="conditional_response" name="conditional_response"></p>
+                <p class="discord_exclusive inner_hide" id="bot_nicknames">Bot Nicknames: 
+                    <input class="required_hidable" type="text" id="bot_nicknames_input" name="bot_nicknames" value="bot, Bot">
+                </p>
+                <p class="discord_exclusive">Status Type:
+                    <select name="status_type" id="status_type">
+                        <option value="playing">Playing</option>
+                        <option value="watching">Watching</option>
+                        <option value="listening">Listening</option>
+                        <option value="streaming">Streaming</option>
+                        <option value="none" selected>None</option>
+                    </select>
+                </p>
+                <p class="inner_hide required_hidable" id="status_body">Status Body: <input type="text" name="status_body" id = "status_body_input"> </p>
+                <p class="discord_exclusive" id="bot_token">
+                Bot token: 
+                    <input class="required_hidable" type="text" id="bot_token_input" name="token" required autocomplete="off"> 
+                </p>
+                <p class="discord_exclusive">
+                    Main Guild ID: 
+                    <input class="required_hidable" type="number" name="main_guild_id" id="main_guild_id" min="0" step="1" required>
+                </p>
+            </fieldset>
+      
+            <fieldset>
+                <legend>Tokenizer Settings</legend>
+                <p>Tokenizer URL or Path: <input type="text" id="tokenizer_path" name="tokenizer_path" required></p>
+                <p> Add Prefix Space? <input type="checkbox" id="add_prefix_space" name="add_prefix_space" checked></p>
+                <p> Local Files Only? <input type="checkbox" id= "local_files_only_tokenizer" name="local_files_only_tokenizer"></p>
+            </fieldset>
+      
+            <fieldset>
+                <legend>Model Settings</legend>
+                <p>Model URL or Path: <input type="text" id="model_path" name="model_path" required></p>
+                <p>Model Data Type 
+                    <select name="data_select" id="data_select">
+                        <option value="int8">8-bit Integer</option>
+                        <option value="float16" selected>16-bit Floating Point</option>
+                        <option value="float32">32-bit Floating Point</option>
+                    </select> 
+                </p>
+                <p> Local Files Only? <input type="checkbox" id="local_files_only_model" name="local_files_only_model"></p>
+            </fieldset>
+      
+            <fieldset>
+                <legend> Generation Settings </legend>
+                <fieldset>
+                    <div class="sub_legend"> Sampler Settings </div>
+                        <p> Use Recommended Settings? <input id="sampler_recommend" type="checkbox" name="sampler_recommend" checked></p>
+                        <p class="sampler_exclusive hide"> 
+                            Use Stochastic Sampling? 
+                            <input type="checkbox" name="do_sample" id="do_sample">
+                        </p>
+                        <p class="sampler_exclusive hide">
+                            top_p/nucleus sampling: 
+                            <input type="checkbox" class="option_check" id= "top_p_check" name="top_p_check"> 
+                            <input type="number" class= "inner_hide" id="top_p" name="top_p" min="0.0" max="1.0" step="0.01" value= 0.9 oninput="top_p_range.value = top_p.value">
+                            <input type="range" class= "inner_hide" name="top_p_range" min="0.0" max="1.0" step="0.01" value = 0.9 oninput="top_p.value = top_p_range.value">
+                        </p>
+                        <p class="sampler_exclusive hide">
+                            penalty_alpha:
+                            <input type="checkbox" class="option_check" id="penalty_alpha_check" name="penalty_alpha_check" checked> 
+                            <input type="number" id = "penalty_alpha" name="penalty_alpha" min="0.0" max="1.0" step="0.01" value="0.6" oninput="penalty_alpha_range.value = penalty_alpha.value">
+                            <input type="range" name="penalty_alpha_range" min="0.0" max="1.0" step="0.01" value = 0.6 oninput="penalty_alpha.value = penalty_alpha_range.value" style="display:inline-block">
+                        </p>
+                        <p class="sampler_exclusive hide">
+                            top_k: 
+                            <input type="checkbox" class="option_check" id="top_k_check" checked> 
+                            <input type="number" id="top_k" min="0" max="500" step="1" value="4" oninput="top_k_range.value = top_k.value">
+                            <input type="range" id="top_k_range" min="0" max="500" step="1" value = 4 oninput="top_k.value = top_k_range.value" style="display:inline-block">
+                        </p>
+                        <p class="sampler_exclusive hide">
+                            typical_p: 
+                            <input type="checkbox" class="option_check" id="typical_p_check" > 
+                            <input type="number" id="typical_p" class= "inner_hide" min="0.0" max="1.0" step="0.01" value=0.2 oninput="typical_p_range.value = typical_p.value">
+                            <input type="range" class= "inner_hide" id="typical_p_range" min="0.0" max="1.0" step="0.01" value=0.2 oninput="typical_p.value = typical_p_range.value">
+                        </p>
+                        <p class="sampler_exclusive hide">
+                            temperature 
+                            <input type="checkbox" class="option_check" id="temperature_check"> 
+                            <input type="number" id="temperature" min="0.0" max="5" class= "inner_hide" step="0.01" value=0.8 oninput="temperature_range.value = temperature.value">
+                            <input type="range" class= "inner_hide" max="5" id="temperature_range" min="0.0" step="0.01" value=0.8 oninput="temperature.value = temperature_range.value">
+                        </p>
+                        <p class="sampler_exclusive hide">
+                            repetition_penalty 
+                            <input type="checkbox" class="option_check" id="repetition_penalty_check"> 
+                            <input type="number" class= "inner_hide" id="repetition_penalty" min="1.0" step="0.01" value=1.1 oninput="repetition_penalty_range.value = repetition_penalty.value" >
+                            <input type="range" class= "inner_hide" id="repetition_penalty_range" min="1.0" max="2.0" step="0.01" value = 1.1 oninput="repetition_penalty.value = repetition_penalty_range.value">
+                        </p>
+
+                </fieldset>
+            
+                <fieldset>
+                    <div class="sub_legend"> Syntax Settings </div>
+                        <p> 
+                        Use Recommended Settings? 
+                        <input type="checkbox" id="syntax_recommend" id="use_syntax_recommend_settings" checked></p>
+                        <p class="syntax_exclusive hide">
+                            max_length: 
+                            <input type="number" id="max_length" min="1" step="1" value="1000">
+                        </p>
+                        <p class="syntax_exclusive hide">
+                            eos_token_id: 
+                            <input type="checkbox" class="option_check" id="eos_token_id_check" checked> 
+                            <input type="number" id="eos_token_id" min="0" step="1" value="198">
+                        </p>
+                        <p class="syntax_exclusive hide">
+                            pad_token_id: 
+                            <input type="checkbox" class="option_check" id="pad_token_id_check" checked> 
+                            <input type="number" id="pad_token_id" min="0" step="1" value="50256">
+                        </p>
+                        <p class="syntax_exclusive hide">
+                            min_length: 
+                            <input type="checkbox" class="option_check" id="min_length_check"> 
+                            <input type="number" class="inner_hide" id="min_length" min="1" step="1" value="200">
+                        </p>
+                        <p class="syntax_exclusive hide">
+                            max_time: 
+                            <input type="checkbox" class="option_check" id="max_time_check"> 
+                            <input type="number" class="inner_hide" id="max_time" min="0.01" max="100.0" step="0.01" value="5">
+                        </p>
+                        <p class="syntax_exclusive hide">
+                            Bad Words List:
+                            <input type="checkbox" class="option_check" id="bad_word_check"> 
+                            <textarea id="bad_words_area" class="syntax_exclusive inner_hide" id="bad_words_area" rows="4" cols="50">Fuck, Shit, Damn, fuck, shit, damn</textarea> 
+                        </p>            
+                </fieldset>        
+            </fieldset>
+      
+            <fieldset>
+                <legend> Input Settings </legend>
+                <div class="sub_legend">Bot Persona Description</div>
+                <div id ="persona_description">
+                    <p> Use W++/ SBF Editor Instead? <input type="checkbox" id="advanced_checked">  </p> 
+                    
+                    <p id="basic_prompt" name="basic_prompt">
+                    <textarea id="basic_prompt_output" rows="4" cols="50">[Bot is a chat bot that is patient. This is an example of how you define a character's persona, using these brackets.]</textarea>
+                    </p>
+                    
+                    
+                    <!-- NOTICE: THE FOLLOWING IS ADAPTED FROM THE FOLLOWING FILE: https://github.com/nolialsea/Wpp/blob/main/index.html !-->
+                    <div id="advanced_prompt" class="advanced_exclusive hide" >
+                        <label for="selectFormat">Format to use: </label>
+                        <select id="selectFormat">
+                            <option value="wpp" selected>W++</option>
+                            <option value="sbf">Square Bracket Format (SBF)</option>
+                        </select>
+
+                        <br/><br/>
+
+                        <div id="optionQuotes" class="formatOption">
+                            <label for="checkboxQuotes">Add quotes to values?</label>
+                            <input type="checkbox" id="checkboxQuotes" checked="checked">
+                        </div>
+                        <div id="optionOneLine" class="formatOption">
+                            <label for="oneLineFormat">One line format(Non-Preview)</label>
+                            <input type="checkbox" id="oneLineFormat">
+                        </div>
+                        <div id="optionSquareBracketsEncasing" class="formatOption">
+                            <label for="squareBracketsEncasing">Square brackets encasing</label>
+                            <input type="checkbox" id="squareBracketsEncasing" checked="checked">
+                        </div>
+
+                        <br/><br/>
+
+                        <table>
+                            <tr>
+                                <td>
+                                    <label for="objectType" style= "padding-left:0em">Type</label>
+                                </td>
+                                <td>
+                                    <input id="objectType">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="objectName" style= "padding-left:0em">Name</label>
+                                </td>
+                                <td>
+                                    <input id="objectName">
+                                </td>
+                            </tr>
+                        </table>
+
+                        <br/>
+
+                        <table id="table">
+                            <thead>
+                            <tr id="theadCells">
+                                <th>Attribute</th>
+                                <th>Value1</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr id="tr0">
+                                <td><input id="input0;0"></td>
+                                <td><input id="input0;1"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <br/><br/>
+
+                        <label for="textareaOutput" style="padding-left: 0em"><span id="spanFormatName">W++</span> result:</label>
+                        <br/><textarea id="textareaOutput" style="width: 100%; height: 100px"></textarea>
+
+                        <br/><br/>
+                        
+                        <label for="textareaJSONOutput" style="padding-left: 0em">JSON:</label>
+                        <br/><textarea id="textareaJSONOutput" style="width: 100%; height: 100px"></textarea>
+                        <button onclick="loadFromJSON()" id="loadFromJson" type="button" hidden>Load from JSON</button>
+                        <button onclick="downloadJSON()" type="button" hidden>Download as JSON</button>
+                    </div>
+                    <!-- This concludes the adapted html code. !-->
+                </div>    
+                <div class= "sub_legend">Example Conversation </div>
+                <p>
+<!-- Why the break in whitespace? Because filling in the example of text area requires this. 
+Unfortunately, past some Javascript string manipulation, there's no way around this. -->                
+<textarea id="example_conversation" name="example_conversation" rows="4" cols="50" required>&lt;START&gt; Bot: Hello User.
+User: Hi Bot.
+Bot: This is an example of how the format of a basic conversation should go, yes?
+User: Yes.
+&lt;START&gt;</textarea> 
+                </p>
+            
+            </fieldset>
+
+            <fieldset>
+                <legend> Experimental Settings </legend>
+                <fieldset>
+                    <div class="sub_legend"> Experimental Processors </div>
+                        <p>
+                            Don't use Experimental Processors?
+                            <input type="checkbox" id="processor_recommend" name="use_recommended_warper_settings" checked>        
+                            <p class="processor_exclusive hide">
+                                <p class="processor_exclusive hide" style="font-size: 1.20em"> Logit Bias </p>
+                                <table id="logit-table" class="processor_exclusive hide">
+                                    <tr>
+                                        <th>Logit/Token/Word</th>
+                                        <th>Bias Value</th>
+                                        <th></th>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="text" name="logit"></td>
+                                        <td><input type="number" name="bias" min= -100 max= 100 step=0.01 value="0"></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+
+                                <br>
+                                <button type="button" id="add_attribute" onclick="add_logit_bias_row()" class="processor_exclusive hide" style="margin-left:1em">Add Attribute</button>
+                                <br><br>
+                            </p>
+                        </p>
+                </fieldset>
+                
+                <fieldset>
+                    <div class="sub_legend"> Experimental Warpers </div>
+                        Don't use Experimental Warpers?
+                        <input type="checkbox" id="warper_recommend" name="use_recommended_warper_settings" checked></p>
+                        <p class="warper_exclusive hide">
+                            top_a: 
+                            <input type="checkbox" class="option_check" id= "top_a_check" name="top_p_check"> 
+                            <input type="number" class= "inner_hide" id="top_a" name="top_a" min="0.0" max="1.0" step="0.01" value= 0.9 oninput="top_a_range.value = top_a.value">
+                            <input type="range" class= "inner_hide" name="top_a_range" min="0.0" max="1.0" step="0.01" value = 0.9 oninput="top_a.value = top_a_range.value">
+                        </p>
+                        
+                        <p class="warper_exclusive hide">
+                            tfs: 
+                            <input type="checkbox" class="option_check" id="tfs_check" name="tfs_check"> 
+                            <input type="number" class= "inner_hide" name="tfs" id="tfs" min="0.0" max="1.0" step="0.01" value= 0.2 oninput="tfs_range.value = tfs.value">
+                            <input type="range" class= "inner_hide" name="tfs_range" min="0.0" max="1.0" step="0.01" value = 0.2 oninput="tfs.value = tfs_range.value">
+                        </p>
+                        
+                
+                </fieldset>
+            </fieldset> 
+        <!-- https://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file -->
+        <input type="submit" value="Download Settings" formmethod= "dialog">
+        <input type="button" value= "Load from Settings" onclick="document.getElementById('file').click();">
+        <input type="file" style="display:none;" id="file" name="file"/ onchange= "load_settings_from_file();">
+    </form>
+    <!-- You might notice that this Javascript is being loaded at the end of the html. Why? 
+    Simple. The Javascript depends on other elements being rendered first.-->
+    <script type="text/javascript" src="javascript/logit_table.js"> </script>
+    <script type="text/javascript" src="javascript/attach_show_hide_events.js"> </script>
+    <script type="text/javascript" src="javascript/create_json.js"> </script>
+    <script type="text/javascript" src="javascript/fill_form_from_json.js"> </script>
+    <script type="text/javascript" src="javascript/advanced_editor.js"></script>   
+    </body>
+    </html>
