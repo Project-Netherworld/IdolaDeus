@@ -111,7 +111,7 @@ function create_provider_settings(a_json_dictionary) {
             "status_type": document.getElementById("status_type").value,
             "status_body": use_value_if_not_equals_value("status_type", "status_body_input", "none"),
             "token" : document.getElementById("bot_token_input").value,
-            "main_guild_id" : parseInt(document.getElementById("main_guild_id").value)
+            "main_guild_id" : document.getElementById("main_guild_id").value
         }
     }
     else {
