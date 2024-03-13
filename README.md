@@ -1,5 +1,5 @@
 # IdolaDeus
-The settings builder for Project Netherworld. The Backend for Project Netherworld. For more information about the Project, see [this homepage](https://github.com/Project-Netherworld).
+The settings builder for Project Netherworld. For more information about the Project, see [this homepage](https://github.com/Project-Netherworld).
 
 ## Features 
 - Serialization(Saving/Loading) of various settings utilized in Project Netherworld via a JSON file
