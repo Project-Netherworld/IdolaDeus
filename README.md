@@ -3,7 +3,7 @@ The settings builder for Project Netherworld. The Backend for Project Netherworl
 
 ## Features 
 - Serialization(Saving/Loading) of various settings utilized in Project Netherworld via a JSON file
-- Integrated [W++ editor](https://github.com/nolialsea/Wpp) from nolialsea for advanced prompting for GPT-J/NEO/NEOX based models
+- Integrated [W++ editor](https://github.com/nolialsea/Wpp) from [nolialsea](https://github.com/nolialsea) for advanced prompting for GPT-J/NEO/NEOX based models
 - Efficient Interface for prompt editing, setting various logit biases, etc..
 
 ## Installation 
